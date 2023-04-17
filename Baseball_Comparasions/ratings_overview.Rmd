@@ -1,0 +1,85 @@
+---
+title: "Hitter Ratings Explained"
+output:
+  html_document:
+    theme:
+      bootswatch: superhero
+---
+
+## Gap Power
+
+Gap Power Rating is calculated in two steps: 
+
+1) Creating a metric called Non-HR Power(dividing the number of non-HR extra base hits that a player has by total number of At Bats): non_hr_pwr = (2B + 3B)/AB
+
+2) Taking Non-HR Power Metric and dividing it by the mean Non-HR Power Metric for the conference: gap_power = non_hr_pwr/mean(non_hr_pwr)
+
+
+## Pop
+
+Pop is calculated in two steps: 
+
+1) Finding the players Isolated Power(ISO): ISO = SlgPct - BA
+
+2) Taking ISO and dividing it by the mean ISO for the conference: Pop = ISO / mean(ISO)
+
+
+## Contact
+
+Only one simple step to calculate contact:
+
+1) Taking Batting Average and divide it by mean Batting Average for the conference: BA / mean(BA)
+
+
+## Eye
+
+Eye is calculated in two steps:
+
+1) Calculating the walk rate: bb_rate = BB/AB
+
+2) Taking walk rate and dividing it by the mean walk rate for the conference: Eye = bb_rate / mean(bb_rate)
+
+
+## SO 
+
+Strikeout is calculated in two steps:
+
+1) Calculating the strikeout rate: k_rate = K/AB
+
+2) Taking the mean strikeout rate for the conference and dividing it by the player strikeout rate(Note: This is the inverse of all other metrics since it's better to have a lower strikeout rate): SO = mean(k_rate, na.rm = TRUE)/k_rate
+
+## Hit
+
+Hit rating is a composite of the previous 5 ratings.
+
+We calculate it like this:
+
+1) Creating a raw hit metric which is the rating divided by the SD of Rating: raw_hit = (gap_power/sd(gap_power))+(Pop/sd(Pop))+(Contact/sd(Contact))+(Eye/sd(Eye))+(SO/sd(SO))
+
+2) Taking raw hit metric and dividing it by the mean raw hit for the conference: Hit = raw_hit/mean(raw_hit)
+
+
+## Run
+
+Run is calculated using 5 of Bill James' Sabermetrics:
+
+1) sp1 = ((SB+3)/(SB+CS+7)-.4)*20
+
+2) sp2 = (sqrt((SB+CS)/((H - HR - X2B - X3B) + BB + HBP)))*(1/.07)
+
+3) sp3 = (X3B/(AB - HR - K)) * 625
+
+4) sp4 = (((R - HR)/(H + BB + HBP - HR)) - 0.1) * 25
+
+5) sp5 = (0.063 - (DP/(AB-HR-K))) * (1/0.007)
+
+6) raw_run = (sp1/sd(sp1, na.rm = TRUE)) + (sp2/sd(sp2, na.rm = TRUE)) + (sp3/sd(sp3, na.rm = TRUE)) + (sp4/sd(sp4, na.rm = TRUE)) + (sp5/sd(sp5, na.rm = TRUE))
+
+7) Run = raw_run/mean(raw_run, na.rm = TRUE))
+
+
+## OVR
+
+Overall is calculated by taking 90% of the Hit rating and 10% of the Run rating: OVR = (.9 * Hit) + (.1 * Run)
+
+

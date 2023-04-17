@@ -1,0 +1,14 @@
+name: baseball_comparasions
+title:
+username:
+account: lukewerkmeister
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8878021
+bundleId: 7101682
+url: https://lukewerkmeister.shinyapps.io/baseball_comparasions/
+when: 1681770530.45541
+lastSyncTime: 1681770530.45542
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: ncaa_data.csv
